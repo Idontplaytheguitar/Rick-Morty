@@ -2,24 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/* The element that needs a custom scrollbar */
+@font-face {
+    font-family: "GetSchwifty";
+    src: url("./get_schwifty.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 .h-half::-webkit-scrollbar {
-    width: 12px; /* Width of the vertical scrollbar */
+    width: 12px;
 }
 
-/* Track of the scrollbar */
 .h-half::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1); /* Color of the track */
-    border-radius: 10px; /* Makes the track rounded */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
 }
 
-/* Handle (thumb) of the scrollbar */
 .h-half::-webkit-scrollbar-thumb {
-    background: #888; /* Color of the handle */
-    border-radius: 10px; /* Makes the handle rounded */
+    background: #888;
+    border-radius: 10px;
 }
 
-/* Handle (thumb) of the scrollbar when hovered */
 .h-half::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Darken the handle color when hovered */
+    background: #555;
 }

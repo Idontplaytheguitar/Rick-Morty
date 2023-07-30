@@ -1,10 +1,11 @@
 import "../styles/index.css";
 import CharacterSelection from "./CharacterSelection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Character } from "../interfaces/Character";
 import CharacterEpisodes from "./CharacterEpisodes";
 import { rickAndMorty } from "../utils/Rick&Morty";
 import { Episode } from "../interfaces/Episode";
+import Loader from './Loader'; // import the Loader component
 
 function App() {
     const [character1, setCharacter1] = useState<Character | null>(null);
@@ -15,9 +16,11 @@ function App() {
     const [bothCharactersEpisodes, setBothCharactersEpisodes] = useState<
         Episode[]
     >([]);
+    const [loading,setLoading] = useState(false)
 
     const handleSearch = async () => {
         if (character1 && character2) {
+            setLoading(true)
             try {
                 const rickMortyService = new rickAndMorty();
 
@@ -42,11 +45,27 @@ function App() {
                 setBothCharactersEpisodes(commonEpisodes);
 
                 setShowEpisodes(true);
+                setTimeout(() =>{
+                    setLoading(false)
+                },300)
             } catch (error) {
                 console.error("Error fetching episodes:", error);
+                setLoading(false)
             }
         }
     };
+
+    useEffect(() => {
+        if(character1 && character2){
+            setShowEpisodes(false)
+        } else{
+            setLoading(true)
+            setShowEpisodes(false)
+            setTimeout(() =>{
+                setLoading(false)
+            },200)
+        }
+    },[character1,character2])
 
     return (
         <div className="flex flex-col bg-rick&morty min-h-screen  bg-blend-saturation bg-slate-700 bg-opacity-90 p-10">
@@ -61,7 +80,7 @@ function App() {
                 />
             </div>
             <button
-                className={`m-2 p-2 bg-blue-500 text-white rounded ${
+                className={`transform transition-all m-2 p-5 text-4xl w-1/2 mx-auto my-5  bg-blue-500 text-white disabled:cursor-default hover:disabled:bg-blue-500 hover:bg-green-400 rounded font-GetSchwifty ${
                     character1 && character2
                         ? ""
                         : "opacity-50 cursor-not-allowed"
@@ -69,13 +88,13 @@ function App() {
                 onClick={handleSearch}
                 disabled={!character1 || !character2}
             >
-                Search
+                SHOW ME WHAT YOU GOT
             </button>
-            {showEpisodes && (
-                <div className="flex flex-row justify-between">
+            {loading ? <Loader/> : showEpisodes && (
+                <div className="flex flex-row justify-between transform transition-all">
                     <CharacterEpisodes
                         episodes={character1Episodes}
-                        title="Character 1 Episodes"
+                        title={`${character1?.name} 1 Episodes`}
                     />
                     <CharacterEpisodes
                         episodes={bothCharactersEpisodes}
@@ -83,7 +102,7 @@ function App() {
                     />
                     <CharacterEpisodes
                         episodes={character2Episodes}
-                        title="Character 2 Episodes"
+                        title={`${character2?.name} 1 Episodes`}
                     />
                 </div>
             )}
