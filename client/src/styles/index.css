@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* The element that needs a custom scrollbar */
+.h-half::-webkit-scrollbar {
+    width: 12px; /* Width of the vertical scrollbar */
+}
+
+/* Track of the scrollbar */
+.h-half::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1); /* Color of the track */
+    border-radius: 10px; /* Makes the track rounded */
+}
+
+/* Handle (thumb) of the scrollbar */
+.h-half::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the handle */
+    border-radius: 10px; /* Makes the handle rounded */
+}
+
+/* Handle (thumb) of the scrollbar when hovered */
+.h-half::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darken the handle color when hovered */
+}
