@@ -35,20 +35,21 @@ const CharacterSelection: React.FC<CharacterSelectionProps> = ({
         },
         [loading, hasMore]
     );
-
     useEffect(() => {
         setLoading(true);
-        setHasMore(false);
         (async () => {
             const data = await rickAndMortyService.getCharacter(page);
-            setCharacters((prevCharacters) => [
-                ...prevCharacters,
-                ...data.results,
-            ]);
-            setHasMore(data.info.pages > page);
+            if (data) {
+                setCharacters((prevCharacters) => [
+                    ...prevCharacters,
+                    ...data.results,
+                ]);
+                setHasMore(data.info.pages >= page + 1); 
+            }
             setLoading(false);
         })();
     }, [page]);
+    
 
     const handleCharacterSelect = (character: Character) => {
         if (selectedCharacter && selectedCharacter.id === character.id) {
